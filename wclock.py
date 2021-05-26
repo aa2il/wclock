@@ -1,9 +1,15 @@
 #! /usr/bin/python3
-
-# Migration to python 3 - doesn't always work under python 3 
-# Problem is in basemap - Time to find a replacement
-
-# sudo apt-get install python3-matplotlib python3-mpltoolkits.basemap
+#
+#         World Clock - J.B.Attili - 2018
+#
+# Gui to show current GMT and Gray Line.
+#
+# Notes:
+# - Need to install basemap for this to work:
+#   sudo apt-get install python3-matplotlib python3-mpltoolkits.basemap
+# - Initially had some problems proting this to Python 3.
+#   Problem was in basemap which is apparently becoming obsoltete.
+#   Time to find a replacement
 
 ############################################################################################
 
@@ -12,7 +18,6 @@ from time import sleep
 from datetime import timedelta,datetime
 from pytz import timezone
 
-#from PyQt4.QtGui import *
 from PyQt5.QtWidgets import *
 from matplotlib.backends.qt_compat import QtCore, QtWidgets
 
@@ -34,6 +39,7 @@ import time
 
 ############################################################################################
 
+# Object to show a digital clock
 class DigitalClock(QLCDNumber):
     def __init__(self, parent=None):
         super(DigitalClock, self).__init__(parent)
@@ -54,7 +60,7 @@ class DigitalClock(QLCDNumber):
         text = now_utc.strftime("%H:%M:%S")
         self.display(text)
 
-
+# The overall gui
 class WCLOCK_GUI(QMainWindow):
 
     def __init__(self, parent=None):
@@ -207,7 +213,7 @@ class WCLOCK_GUI(QMainWindow):
 ############################################################################################
 
 # If the program is run directly or passed as an argument to the python
-# interpreter then create a Calendar instance and show it
+# interpreter then create a gui instance and show it
 if __name__ == "__main__":
 
     print('\n****************************************************************************')
