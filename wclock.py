@@ -1,16 +1,30 @@
 #! /usr/bin/python3
+############################################################################################
 #
-#         World Clock - J.B.Attili - 2018
+# World Clock - Rev 1.0
+# Copyright (C) 2021 by Joseph B. Attili, aa2il AT arrl DOT net
 #
 # Gui to show current GMT and Gray Line.
 #
 # Notes:
 # - Need to install basemap for this to work:
 #   sudo apt-get install python3-matplotlib python3-mpltoolkits.basemap
-# - Initially had some problems proting this to Python 3.
-#   Problem was in basemap which is apparently becoming obsoltete.
-#   Time to find a replacement
-
+# - Initially developed under Python 2.  Had some problems porting this to Python 3,
+#   specifically, with basemap which is apparently becoming obsoltete.
+#   Its probably time to find a replacement.
+#
+############################################################################################
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
 ############################################################################################
 
 import sys
@@ -59,6 +73,8 @@ class DigitalClock(QLCDNumber):
         now_utc = datetime.now(timezone('UTC'))
         text = now_utc.strftime("%H:%M:%S")
         self.display(text)
+
+############################################################################################
 
 # The overall gui
 class WCLOCK_GUI(QMainWindow):
