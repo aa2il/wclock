@@ -39,7 +39,8 @@ from matplotlib.backends.qt_compat import QtCore, QtWidgets
 # It appears that basemaps (& python 2.7) are about to become obsolete so
 # it may be time to start looking for an alternative.
 import mpl_toolkits
-mpl_toolkits.__path__.append('/usr/lib/python2.7/dist-packages/mpl_toolkits/')
+#mpl_toolkits.__path__.append('/usr/lib/python2.7/dist-packages/mpl_toolkits/')
+#mpl_toolkits.__path__.append('/usr/lib/python3/dist-packages/mpl_toolkits/')
 from mpl_toolkits.basemap import Basemap
 
 import matplotlib.pyplot as plt
@@ -213,8 +214,13 @@ class WCLOCK_GUI(QMainWindow):
 
         # Draw politcal boundaries
         m.drawcoastlines()
-        m.drawstates()
-        m.drawcountries()
+        try:
+            m.drawcountries()
+            m.drawstates()
+            #m.drawcountries(linewidth=2, linestyle='solid', color='k' ) 
+            #m.drawstates(linewidth=1, color='black')
+        except:
+            pass
 
         # discards the old graph
         #ax.clear()
