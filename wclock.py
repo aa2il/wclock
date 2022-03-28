@@ -92,12 +92,18 @@ class WCLOCK_GUI(QMainWindow):
         timer.start(15*60*1000)
 
         # Start by putting up the root window
-        self._main = QtWidgets.QWidget()
-        self.setCentralWidget(self._main)
+        self.win = QtWidgets.QWidget()
+        self.setCentralWidget(self.win)
         self.setWindowTitle('World Clock by AA2IL')
 
+        # Place window into lower right corner
+        screen_resolution = app.desktop().screenGeometry()
+        width, height = screen_resolution.width(), screen_resolution.height()
+        print("Screen Res:",screen_resolution,width, height)
+        self.setGeometry(width-300,height-300,300,300)
+
         # We use a simple grid to layout controls
-        self.grid = QGridLayout(self._main)
+        self.grid = QGridLayout(self.win)
         nrows=3
         ncols=1
 
