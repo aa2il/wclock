@@ -8,10 +8,15 @@
 #
 # Notes:
 # - Need to install basemap for this to work:
-#   sudo apt-get install python3-matplotlib python3-mpltoolkits.basemap
-# - Initially developed under Python 2.  Had some problems porting this to Python 3,
-#   specifically, with basemap which is apparently becoming obsoltete.
-#   Its probably time to find a replacement.
+#   Linux:
+#      sudo apt-get install python3-matplotlib python3-mpltoolkits.basemap
+#   Windows 10 (wonder if this works on Linux?):
+#      pip install basemap
+#
+# - Initially developed under Python 2.  Had some problems porting this
+#   to Python 3, but seems ok now.  Specifically, with basemap which
+#   is apparently becoming obsoltete.
+#   Its probably time to find a replacement but still seems to work.
 #
 ############################################################################################
 #
