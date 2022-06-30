@@ -1,22 +1,18 @@
 #! /usr/bin/python3 -u
 ############################################################################################
 #
-# World Clock - Rev 1.0
-# Copyright (C) 2021 by Joseph B. Attili, aa2il AT arrl DOT net
+# World Clock - Rev 2.0
+# Copyright (C) 2021-2 by Joseph B. Attili, aa2il AT arrl DOT net
 #
-# Gui to show current GMT and Gray Line.
+# Gui to show current GMT and Gray Line.  This new version uses cartopy
+# rather than basemap.
 #
 # Notes:
-# - Need to install basemap for this to work:
+# - Need to install cartopy
 #   Linux:
-#      sudo apt-get install python3-matplotlib python3-mpltoolkits.basemap
-#   Windows 10 (wonder if this works on Linux?):
-#      pip install basemap
-#
-# - Initially developed under Python 2.  Had some problems porting this
-#   to Python 3, but seems ok now.  Specifically, with basemap which
-#   is apparently becoming obsoltete.
-#   Its probably time to find a replacement but still seems to work.
+#      sudo apt-get install python3-matplotlib python3-cartopy
+#   Windows 10 - Haven't tried it yet ??????
+#      pip install cartopy????
 #
 ############################################################################################
 #
@@ -40,18 +36,13 @@ from pytz import timezone
 from PyQt5.QtWidgets import *
 from matplotlib.backends.qt_compat import QtCore, QtWidgets
 
-# JBA - this fixes a bug? in mpl_toolkits
-# It appears that basemaps (& python 2.7) are about to become obsolete so
-# it may be time to start looking for an alternative.
-import mpl_toolkits
-#mpl_toolkits.__path__.append('/usr/lib/python2.7/dist-packages/mpl_toolkits/')
-#mpl_toolkits.__path__.append('/usr/lib/python3/dist-packages/mpl_toolkits/')
-from mpl_toolkits.basemap import Basemap
-
 import matplotlib.pyplot as plt
-#from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+from cartopy.feature.nightshade import Nightshade
 
 from itertools import chain
 import numpy as np
@@ -89,7 +80,6 @@ class WCLOCK_GUI(QMainWindow):
         super(WCLOCK_GUI, self).__init__(parent)
 
         print('Init GUI ...\n')
-        self.count=0
 
         # Timer to update the map every 15 minutes
         timer = QtCore.QTimer(self)
@@ -105,7 +95,8 @@ class WCLOCK_GUI(QMainWindow):
         screen_resolution = app.desktop().screenGeometry()
         width, height = screen_resolution.width(), screen_resolution.height()
         print("Screen Res:",screen_resolution,width, height)
-        self.setGeometry(width-300,height-300,300,300)
+        h=300   # 210
+        self.setGeometry(width-300,height-h,300,h)
 
         # We use a simple grid to layout controls
         self.grid = QGridLayout(self.win)
@@ -144,105 +135,46 @@ class WCLOCK_GUI(QMainWindow):
         # Shade the night areas
         date1 = datetime.utcnow()
         print('Updating map @ ',date1)
-        self.count+=1
-        if self.count>1:
-            #self.canv.draw()
-            for item in self.CS.collections:
-                item.remove()
-        self.CS=self.m.nightshade(date1,alpha=0.5)
+
+        if self.nightmap:
+            self.nightmap.remove()
+        self.nightmap=self.ax.add_feature(Nightshade(date1, alpha=0.5))
 
         # refresh canvas
         self.canv.draw()
 
     # Draw a shaded-relief image
     def draw_map(self,scale=0.01):
-        self.ax = self.fig.add_subplot(111)
+
+        self.ax = self.fig.add_subplot(111, projection=ccrs.PlateCarree())
+        self.ax.stock_img()
+        #self.fig.canvas.draw()
+        self.ax.set_aspect('auto')
         self.fig.tight_layout(pad=0)
 
-        lon_offset=30
-        if True:
-            m = Basemap(projection='cyl', resolution='c',
-                        llcrnrlat=-90, urcrnrlat=90,
-                        llcrnrlon=-180, urcrnrlon=180,
-                        fix_aspect=False, ax=self.ax)
-            m.shadedrelief(scale=scale)
-            #m.bluemarble(scale=scale)
-            #m.etopo(scale=scale)
-        elif False:
-            # Great circle map - sort of works but grey line is hosed up
-            lon_0 = -105; lat_0 = 40
-            m = Basemap(projection='aeqd',lat_0=lat_0,lon_0=lon_0,
-                        fix_aspect=False, ax=self.ax)
-            # fill background.
-            m.drawmapboundary(fill_color='aqua')
-            # draw coasts and fill continents.
-            m.drawcoastlines(linewidth=0.5)
-            m.fillcontinents(color='coral',lake_color='aqua')
-            # 20 degree graticule.
-            #m.drawparallels(np.arange(-80,81,20))
-            #m.drawmeridians(np.arange(-180,180,20))
-            # draw a black dot at the center.
-            xpt, ypt = m(lon_0, lat_0)
-            m.plot([xpt],[ypt],'ko')
-            self.m = m
-            return
-        elif False:
-            # There is a bug in basemap that prevents the reset of these from working
-            # Need to update at some point - seems like a pain though
-            # Search on     matplotlib basemap error in warpimage   to see error
-            m = Basemap(projection='mill', resolution='c',
-                        lon_0=-90,
-                        fix_aspect=False, ax=self.ax)
-            m.shadedrelief(scale=scale)
-        elif False:
-            m = Basemap(projection='cyl', resolution='c',
-                        lon_0=-90,lat_0=0,
-                        fix_aspect=False, ax=self.ax)
-        elif False:
-            m = Basemap(projection='cass', resolution='c',
-                        llcrnrlat=-80, urcrnrlat=80,
-                        llcrnrlon=-180, urcrnrlon=180,
-                        lon_0=30.,lat_0=10.,
-                        fix_aspect=False, ax=self.ax)
-        else:
-            m = Basemap(projection='eck4', resolution='c',
-                        lon_0=30.,
-                        fix_aspect=False, ax=self.ax)
-        self.m = m
-    
-        # lats and longs are returned as a dictionary
-        lats = m.drawparallels(np.linspace(-90, 90, 13))
-        lons = m.drawmeridians(np.linspace(-180, 180, 13))
-    
-        # keys contain the plt.Line2D instances
-        lat_lines = chain(*(tup[1][0] for tup in list(lats.items())))
-        lon_lines = chain(*(tup[1][0] for tup in list(lons.items())))
-        all_lines = chain(lat_lines, lon_lines)
-    
-        # cycle through these lines and set the desired style
-        for line in all_lines:
-            line.set(linestyle='-', alpha=0.3, color='w')
+        # Create a feature for States/Admin 1 regions at 1:50m from Natural Earth
+        states_provinces = cfeature.NaturalEarthFeature(
+            category='cultural',
+            name='admin_1_states_provinces_lines',
+            scale='50m',
+            facecolor='none')
 
         # Draw politcal boundaries
-        m.drawcoastlines()
-        try:
-            m.drawcountries()
-            m.drawstates()
-            #m.drawcountries(linewidth=2, linestyle='solid', color='k' ) 
-            #m.drawstates(linewidth=1, color='black')
-        except:
-            pass
+        self.ax.add_feature(cfeature.LAND)
+        self.ax.add_feature(cfeature.COASTLINE)
+        self.ax.add_feature(cfeature.BORDERS)
+        self.ax.add_feature(states_provinces, edgecolor='gray')
 
-        # discards the old graph
-        #ax.clear()
+        #self.ax.set_xticks( np.linspace(-90, 90, 13) )
+        #self.ax.set_yticks( np.linspace(-180, 180, 13) )
+        self.ax.gridlines(linestyle=':')
 
-        # plot data
-        #ax.plot(data, '*-')
+        self.ax.set_aspect('auto')
+        self.fig.tight_layout(pad=0)
 
-        # refresh canvas
-        #self.canvas.draw()
-
-
+        self.nightmap=None
+        
+        
 ############################################################################################
 
 # If the program is run directly or passed as an argument to the python
