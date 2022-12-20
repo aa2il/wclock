@@ -10,9 +10,10 @@
 #set ROOT="/media/${USER}/pi"
 #set ROOT="/media/${USER}/aa2il"
 set ROOT="/media/${USER}/marconi"
+set ROOT="/media/${USER}/sproul"
 #set ROOT="/media/${USER}/3D76-ECB1"
 #set ROOT="/media/${USER}/acer"
-set ROOT="/media/${USER}/cartman"
+#set ROOT="/media/${USER}/cartman"
 if( !(-e $ROOT) )then
     set ROOT="${ROOT}2"
 endif
@@ -30,10 +31,13 @@ echo OLD=$old
 #set old='save45'
 
 rm -f DIFFS
-foreach i (*.py DIFF *.bat *.txt)
+foreach i (*.py DIFF *.bat *.txt *.md)
     echo $i
     set n=`diff -w $old/$i $i | wc -l`
-    if( $n>0 ) then
+    if( !( -e $old/$i ) )then
+        echo NO SUCH FILE $old/$i
+        cp $i $old/$i
+    else if( $n > 0 ) then
         echo ---------------------------------- >> DIFFS
         echo $i >> DIFFS
         echo " " >> DIFFS

@@ -3,3 +3,5 @@
 /save2/*
 /#*#
 /dist/wclock.exe
+/build/*
+/dist/wclock

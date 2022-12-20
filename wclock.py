@@ -39,6 +39,7 @@ from matplotlib.backends.qt_compat import QtCore, QtWidgets
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.image import imread
 
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
@@ -147,8 +148,17 @@ class WCLOCK_GUI(QMainWindow):
     def draw_map(self,scale=0.01):
 
         self.ax = self.fig.add_subplot(111, projection=ccrs.PlateCarree())
-        self.ax.stock_img()
-        #self.fig.canvas.draw()
+        if False:
+            # This doesn't work under pyinstaller ...
+            self.ax.stock_img()
+            #self.fig.canvas.draw()
+        else:
+            # ... so we load image directly instead
+            fname='50-natural-earth-1-downsampled.png'
+            print('fname=',fname)
+            img = imread(fname)
+            self.ax.imshow(img, origin='upper', transform=ccrs.PlateCarree(), extent=[-180, 180, -90, 90])
+        
         self.ax.set_aspect('auto')
         self.fig.tight_layout(pad=0)
 
