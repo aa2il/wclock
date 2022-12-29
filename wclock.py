@@ -110,7 +110,14 @@ class WCLOCK_GUI(QMainWindow):
         self.clock = DigitalClock()
         self.grid.addWidget(self.clock,row,col,2,ncols)
         self.clock.show()
+        
+        sizePolicy = QSizePolicy( QSizePolicy.Minimum, 
+                                  QSizePolicy.Minimum)
+        self.clock.setSizePolicy(sizePolicy)
+        #print('Clock hint=',self.clock.sizeHint(),'\tsize=',self.clock.geometry())
+        self.clock.setMinimumSize(200,50)
 
+        
         # The Canvas where we will put the map
         row=2
         self.fig = Figure()
@@ -120,8 +127,10 @@ class WCLOCK_GUI(QMainWindow):
         # Allow canvas size to change when we resize the window
         # but make is always visible
         #sizePolicy = QSizePolicy( QSizePolicy.MinimumExpanding, 
-        #                                QSizePolicy.MinimumExpanding)
-        #self.canv.setSizePolicy(sizePolicy)
+        #                          QSizePolicy.MinimumExpanding)
+        sizePolicy = QSizePolicy( QSizePolicy.Expanding,
+                                  QSizePolicy.Expanding)
+        self.canv.setSizePolicy(sizePolicy)
 
         # Draw the map
         self.draw_map()
