@@ -5,3 +5,5 @@
 /dist/wclock.exe
 /build/*
 /dist/wclock
+/dist/wclock_setup.exe
+/wclock.spec

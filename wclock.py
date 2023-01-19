@@ -2,7 +2,7 @@
 ############################################################################################
 #
 # World Clock - Rev 2.0
-# Copyright (C) 2021-2 by Joseph B. Attili, aa2il AT arrl DOT net
+# Copyright (C) 2021-3 by Joseph B. Attili, aa2il AT arrl DOT net
 #
 # Gui to show current GMT and Gray Line.  This new version uses cartopy
 # rather than basemap.
@@ -29,6 +29,7 @@
 ############################################################################################
 
 import sys
+import os
 from time import sleep
 from datetime import timedelta,datetime
 from pytz import timezone
@@ -47,7 +48,12 @@ from cartopy.feature.nightshade import Nightshade
 
 from itertools import chain
 import numpy as np
-import time 
+import time
+from utilities import find_resource_file
+
+############################################################################################
+
+VERSION=1.0
 
 ############################################################################################
 
@@ -163,8 +169,8 @@ class WCLOCK_GUI(QMainWindow):
             #self.fig.canvas.draw()
         else:
             # ... so we load image directly instead
-            fname='50-natural-earth-1-downsampled.png'
-            print('fname=',fname)
+            # Need figure out where it is since this varies from linux to windoz
+            fname=find_resource_file('50-natural-earth-1-downsampled.png')
             img = imread(fname)
             self.ax.imshow(img, origin='upper', transform=ccrs.PlateCarree(), extent=[-180, 180, -90, 90])
         
@@ -201,7 +207,7 @@ class WCLOCK_GUI(QMainWindow):
 if __name__ == "__main__":
 
     print('\n****************************************************************************')
-    print('\n   World Clock beginning ...\n')
+    print('\n   World Clock',VERSION,'beginning ...\n')
     
     app  = QApplication(sys.argv)
     gui  = WCLOCK_GUI()
