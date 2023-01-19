@@ -14,6 +14,7 @@ echo.
 echo To compile - this takes a long time:
        pyinstaller --onefile wclock.py
        copy ..\data\50-natural-earth-1-downsampled.png dist
+       copy Release_Notes.txt dist
 echo.
 echo To test binary:
        dist\wclock.exe
@@ -24,7 +25,7 @@ echo   dist/wclock
 echo.
 echo ---------------------------------------------------------------------
 echo.
-echo This is deprecated but works under windoz ...
+echo This is deprecated (it uses basemap) but works under windoz ...
 echo   wclock1.py
 echo.
 echo ... but this does NOT work  :-(

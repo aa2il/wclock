@@ -4,7 +4,7 @@
 #define MyAppName "wclock"
 #define MyAppVersion "1.0"
 #define MyAppPublisher "AA2IL"
-#define MyAppURL "github.com/aa2il"
+#define MyAppURL "https://github.com/aa2il/wclock"
 #define MyAppExeName "wclock.exe"
 
 [Setup]
@@ -20,6 +20,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\AA2IL
 DisableProgramGroupPage=yes
+InfoAfterFile=C:\Users\Joea\Python\wclock\dist\Release_Notes.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputBaseFilename=wclock_setup
