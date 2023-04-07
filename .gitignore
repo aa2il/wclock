@@ -7,3 +7,4 @@
 /dist/wclock
 /dist/wclock_setup.exe
 /wclock.spec
+/dist/#*

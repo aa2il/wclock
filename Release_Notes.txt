@@ -3,9 +3,9 @@ World Clock - by AA2IL
 
 Clock app showing GMT time and Gray Line.
 
-This app is written in python 3.  The python script wclock.py can be run under linux or windoz 10 and 11.  Stand-alone execuatables for linux and windoz 10/11 have been made using pyinstaller.  Complete source code and build files are available at
+This app is written in python 3.  The python script wclock.py can be run under linux or windoz 10/11.  Stand-alone execuatables for linux and windoz 10/11 have been made using pyinstaller.  Complete source code and build files are available at https://github.com/aa2il/wclock .
 
-https://github.com/aa2il/wclock
+Please email constructive comments/suggestions to aa2il AT arrl DOT net.
 
 Windows Installer:  wclock_setup.exe
 
