@@ -83,7 +83,7 @@ class DigitalClock(QLCDNumber):
 # The overall gui
 class WCLOCK_GUI(QMainWindow):
 
-    def __init__(self, parent=None):
+    def __init__(self,geo,parent=None):
         super(WCLOCK_GUI, self).__init__(parent)
 
         print('Init GUI ...\n')
@@ -99,11 +99,28 @@ class WCLOCK_GUI(QMainWindow):
         self.setWindowTitle('World Clock by AA2IL')
 
         # Place window into lower right corner
-        screen_resolution = app.desktop().screenGeometry()
-        width, height = screen_resolution.width(), screen_resolution.height()
-        print("Screen Res:",screen_resolution,width, height)
-        h=300   # 210
-        self.setGeometry(width-300,height-h,300,h)
+        if geo==None:
+            screen_resolution = app.desktop().screenGeometry()
+            width, height = screen_resolution.width(), screen_resolution.height()
+            print("Screen Res:",screen_resolution,width, height)
+            h=300   # 210
+            w=300
+            x=width-w
+            y=height-h            
+        else:
+            # WWWxHHH+XXX+YYY
+            #wclock.py -geo 390x360+1110+710
+            print('geo=',geo)
+            geo2=geo.split('+')
+            print('geo2=',geo2)
+            geo3=geo2[0].split('x')
+            print('geo3=',geo3)
+            w=int( geo3[0] )
+            h=int( geo3[1] )
+            x=int( geo2[1] )
+            y=int( geo2[2] )
+        print('geo=',geo,'\tx=',x,'\ty=',y,'\tw=',w,'\th=',h)
+        self.setGeometry(x,y,w,h)
 
         # We use a simple grid to layout controls
         self.grid = QGridLayout(self.win)
@@ -205,12 +222,19 @@ class WCLOCK_GUI(QMainWindow):
 # If the program is run directly or passed as an argument to the python
 # interpreter then create a gui instance and show it
 if __name__ == "__main__":
-
+    import argparse
+    
     print('\n****************************************************************************')
     print('\n   World Clock',VERSION,'beginning ...\n')
-    
+
+    # Command line args
+    arg_proc = argparse.ArgumentParser(description='World Clock')
+    arg_proc.add_argument('-geo',type=str,default=None,
+                          help='Geometry')
+    args = arg_proc.parse_args()
+
     app  = QApplication(sys.argv)
-    gui  = WCLOCK_GUI()
+    gui  = WCLOCK_GUI(args.geo)
     
     sys.exit(app.exec_())
     
