@@ -82,9 +82,9 @@ Clock showing GMT time and Gray Line.
 
 7) To run wclock, we need to specify python interpreter so it doesn't run in
    the default system environment:
-   - cd ~/Python/pyKeyer
+   - cd ~/Python/wclock
    - conda activate aa2il
-   - python pyKeyer.py
+   - python wclock.py
 
 8) Known issues using this (as of July 2023):
    - None
