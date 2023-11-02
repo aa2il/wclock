@@ -83,7 +83,7 @@ class DigitalClock(QLCDNumber):
 # The overall gui
 class WCLOCK_GUI(QMainWindow):
 
-    def __init__(self,geo,parent=None):
+    def __init__(self,args,parent=None):
         super(WCLOCK_GUI, self).__init__(parent)
 
         print('Init GUI ...\n')
@@ -99,6 +99,7 @@ class WCLOCK_GUI(QMainWindow):
         self.setWindowTitle('World Clock by AA2IL')
 
         # Place window into lower right corner
+        geo=args.geo
         if geo==None:
             screen_resolution = app.desktop().screenGeometry()
             width, height = screen_resolution.width(), screen_resolution.height()
@@ -139,7 +140,6 @@ class WCLOCK_GUI(QMainWindow):
         self.clock.setSizePolicy(sizePolicy)
         #print('Clock hint=',self.clock.sizeHint(),'\tsize=',self.clock.geometry())
         self.clock.setMinimumSize(200,50)
-
         
         # The Canvas where we will put the map
         row=2
@@ -161,6 +161,12 @@ class WCLOCK_GUI(QMainWindow):
 
         # Let's roll!
         self.show()
+        if args.desktop!=None:
+            #cmd1='wmctrl -r "World Clock" -t '+str(args.desktop)
+            #print(cmd1)
+            cmd2='wmctrl -r "'+self.windowTitle()+'" -t '+str(args.desktop)
+            #print(cmd2)
+            os.system(cmd2)
         
     # Function to update the map
     def UpdateMap(self):
@@ -231,10 +237,12 @@ if __name__ == "__main__":
     arg_proc = argparse.ArgumentParser(description='World Clock')
     arg_proc.add_argument('-geo',type=str,default=None,
                           help='Geometry')
+    arg_proc.add_argument('-desktop',type=int,default=None,
+                          help='Desk Top Work Space No.')
     args = arg_proc.parse_args()
 
     app  = QApplication(sys.argv)
-    gui  = WCLOCK_GUI(args.geo)
+    gui  = WCLOCK_GUI(args)
     
     sys.exit(app.exec_())
     
