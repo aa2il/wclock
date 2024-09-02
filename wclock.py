@@ -1,4 +1,7 @@
-#! /usr/bin/python3 -u
+#!/usr/bin/python3 -u 
+#
+# NEW: /home/joea/.venv/bin/python -u
+# OLD: /usr/bin/python3 -u 
 ############################################################################################
 #
 # World Clock - Rev 2.0
@@ -34,7 +37,11 @@ from time import sleep
 from datetime import timedelta,datetime
 from pytz import timezone
 
-from PyQt5.QtWidgets import *
+try:
+    #from PyQt6.QtWidgets import *         # Doesnt work right!
+    from PySide6.QtWidgets import *
+except ImportError:
+    from PyQt5.QtWidgets import *
 from matplotlib.backends.qt_compat import QtCore, QtWidgets
 
 import matplotlib.pyplot as plt
@@ -101,8 +108,10 @@ class WCLOCK_GUI(QMainWindow):
         # Place window into lower right corner
         geo=args.geo
         if geo==None:
-            screen_resolution = app.desktop().screenGeometry()
-            width, height = screen_resolution.width(), screen_resolution.height()
+            #screen_resolution = app.desktop().screenGeometry()
+            screen_resolution = app.primaryScreen().size()
+            width  = screen_resolution.width()
+            height = screen_resolution.height()
             print("Screen Res:",screen_resolution,width, height)
             h=300   # 210
             w=300
@@ -244,5 +253,5 @@ if __name__ == "__main__":
     app  = QApplication(sys.argv)
     gui  = WCLOCK_GUI(args)
     
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
     
