@@ -39,9 +39,15 @@ from pytz import timezone
 
 try:
     #from PyQt6.QtWidgets import *         # Doesnt work right!
+    #from PyQt6.QtGui import QPalette      # Too many differences from QT5 - ugh! 
+    #from PyQt6.QtCore import Qt,qVersion
     from PySide6.QtWidgets import *
+    from PySide6.QtGui import QPalette
+    from PySide6.QtCore import Qt,qVersion
 except ImportError:
     from PyQt5.QtWidgets import *
+    from PyQt5.QtGui import QPalette
+    from PyQt5.QtCore import Qt,qVersion
 from matplotlib.backends.qt_compat import QtCore, QtWidgets
 
 import matplotlib.pyplot as plt
@@ -69,9 +75,28 @@ class DigitalClock(QLCDNumber):
     def __init__(self, parent=None):
         super(DigitalClock, self).__init__(parent)
 
-        self.setSegmentStyle(QLCDNumber.Filled)
+        self.setSegmentStyle(QLCDNumber.Filled)    
+        #self.setSegmentStyle(QLCDNumber.Flat)        # Bolder
         self.setDigitCount(8)
         self.setMinimumHeight(48)
+
+        # In Qt6, keep segments from fading out when window is not selected
+        print('QT Version=',qVersion())
+        if True:
+            # This seems a little easier somehow
+            self.setStyleSheet("""QLCDNumber { 
+            color: black; }""")
+            #background-color: white; 
+        elif True:    
+            # This also works 
+            # Set the foreground color (color of the displayed digits)
+            palette = self.palette()
+            palette.setColor(QPalette.WindowText, Qt.black)
+            self.setPalette(palette)
+
+            # Set the background color
+            #palette.setColor(QPalette.Window, Qt.black)
+            #self.setPalette(palette)
 
         # Time to update clock every second
         timer = QtCore.QTimer(self)
