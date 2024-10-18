@@ -8,3 +8,5 @@
 /dist/wclock_setup.exe
 /wclock.spec
 /dist/#*
+/%LOG
+/save3/*

@@ -34,22 +34,32 @@
 import sys
 import os
 from time import sleep
-from datetime import timedelta,datetime
+from datetime import timedelta,datetime    # ,UTC - Once we move to python 3.12
 from pytz import timezone
 
 try:
-    #from PyQt6.QtWidgets import *         # Doesnt work right!
-    #from PyQt6.QtGui import QPalette      # Too many differences from QT5 - ugh! 
-    #from PyQt6.QtCore import Qt,qVersion
-    from PySide6.QtWidgets import *
-    from PySide6.QtGui import QPalette
-    from PySide6.QtCore import Qt,qVersion
+    if True:
+        # This doesnt work right but need to figure it out since ...
+        # The changes are BS and typical of if it aint broke, let's fix it attitude
+        # that keep linux from becoming dominant.  What a disgrace!
+        # The main changes relate to the elimination of short-cut names for enum types.
+        # I haven't found a definitive listing of the changes - best to serach using error generated.
+        # Guessing often works too!
+        # What a crock!!!!
+        from PyQt6.QtWidgets import *  
+        from PyQt6.QtGui import QPalette      # Too many differences from QT5 - ugh! 
+        from PyQt6.QtCore import Qt,qVersion
+    else:
+        # ... there is a bug in PySide6 and this hangs on exit
+        from PySide6.QtWidgets import *
+        from PySide6.QtGui import QPalette
+        from PySide6.QtCore import Qt,qVersion
 except ImportError:
     from PyQt5.QtWidgets import *
     from PyQt5.QtGui import QPalette
     from PyQt5.QtCore import Qt,qVersion
+    
 from matplotlib.backends.qt_compat import QtCore, QtWidgets
-
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -66,7 +76,7 @@ from utilities import find_resource_file
 
 ############################################################################################
 
-VERSION=1.0
+VERSION=1.1
 
 ############################################################################################
 
@@ -75,7 +85,7 @@ class DigitalClock(QLCDNumber):
     def __init__(self, parent=None):
         super(DigitalClock, self).__init__(parent)
 
-        self.setSegmentStyle(QLCDNumber.Filled)    
+        self.setSegmentStyle(QLCDNumber.SegmentStyle.Filled)    
         #self.setSegmentStyle(QLCDNumber.Flat)        # Bolder
         self.setDigitCount(8)
         self.setMinimumHeight(48)
@@ -169,8 +179,8 @@ class WCLOCK_GUI(QMainWindow):
         self.grid.addWidget(self.clock,row,col,2,ncols)
         self.clock.show()
         
-        sizePolicy = QSizePolicy( QSizePolicy.Minimum, 
-                                  QSizePolicy.Minimum)
+        sizePolicy = QSizePolicy( QSizePolicy.Policy.Minimum, 
+                                  QSizePolicy.Policy.Minimum)
         self.clock.setSizePolicy(sizePolicy)
         #print('Clock hint=',self.clock.sizeHint(),'\tsize=',self.clock.geometry())
         self.clock.setMinimumSize(200,50)
@@ -185,8 +195,8 @@ class WCLOCK_GUI(QMainWindow):
         # but make is always visible
         #sizePolicy = QSizePolicy( QSizePolicy.MinimumExpanding, 
         #                          QSizePolicy.MinimumExpanding)
-        sizePolicy = QSizePolicy( QSizePolicy.Expanding,
-                                  QSizePolicy.Expanding)
+        sizePolicy = QSizePolicy( QSizePolicy.Policy.Expanding,
+                                  QSizePolicy.Policy.Expanding)
         self.canv.setSizePolicy(sizePolicy)
 
         # Draw the map
@@ -207,6 +217,8 @@ class WCLOCK_GUI(QMainWindow):
         
         # Shade the night areas
         date1 = datetime.utcnow()
+        #date1 = datetime.now(UTC)     # Once we move to python 3.12
+
         print('Updating map @ ',date1)
 
         if self.nightmap:
@@ -277,6 +289,11 @@ if __name__ == "__main__":
 
     app  = QApplication(sys.argv)
     gui  = WCLOCK_GUI(args)
-    
-    sys.exit(app.exec())
+
+    print('And away we go !')
+    #sys.exit(app.exec())
+    app.exec()
+    print('Thats all folks!')
+    sys,exit(0)
+    print('Thats all folks!')
     

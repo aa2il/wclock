@@ -30,3 +30,13 @@ pytz
 pyserial
 cartopy
 PySide6
+
+# From miniconda, also need these for some reason?!
+lxml
+cryptography
+attrs
+platformdirs
+requests
+requests-file
+requests-toolbelt
+beautifulsoup4
