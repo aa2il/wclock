@@ -1,21 +1,18 @@
-#!/usr/bin/python3 -u 
+#! /home/joea/miniconda3/envs/aa2il/bin/python -u
 #
-# NEW: /home/joea/.venv/bin/python -u
+# NEW: /home/joea/miniconda3/envs/aa2il/bin/python -u
 # OLD: /usr/bin/python3 -u 
 ############################################################################################
 #
 # World Clock - Rev 2.0
-# Copyright (C) 2021-4 by Joseph B. Attili, aa2il AT arrl DOT net
+# Copyright (C) 2021-5 by Joseph B. Attili, aa2il AT arrl DOT net
 #
 # Gui to show current GMT and Gray Line.  This new version uses cartopy
 # rather than basemap.
 #
-# Notes:
-# - Need to install cartopy
-#   Linux:
-#      sudo apt-get install python3-matplotlib python3-cartopy
-#   Windows 10 - Haven't tried it yet ??????
-#      pip install cartopy????
+# New in version 2.0:
+# If user clicks time display widget, display flips over
+# to local temperature for 5-seconds.
 #
 ############################################################################################
 #
@@ -39,7 +36,7 @@ from pytz import timezone
 
 try:
     if True:
-        # This doesnt work right but need to figure it out since ...
+        # This doesnt work right but I need to figure it out since ...
         # The changes are BS and typical of if it aint broke, let's fix it attitude
         # that keep linux from becoming dominant.  What a disgrace!
         # The main changes relate to the elimination of short-cut names for enum types.
@@ -74,22 +71,28 @@ import numpy as np
 import time
 from utilities import find_resource_file
 
+import requests, json
+from latlon2maiden import maidenhead2latlon
+
 ############################################################################################
 
-VERSION=1.1
+VERSION=2.0
 
 ############################################################################################
 
 # Object to show a digital clock
 class DigitalClock(QLCDNumber):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None,wx=None):
         super(DigitalClock, self).__init__(parent)
 
         self.setSegmentStyle(QLCDNumber.SegmentStyle.Filled)    
         #self.setSegmentStyle(QLCDNumber.Flat)        # Bolder
-        self.setDigitCount(8)
+        self.setDigitCount(8)    # was 8
         self.setMinimumHeight(48)
-
+        
+        self.wx=wx
+        self.timeout=0
+        
         # In Qt6, keep segments from fading out when window is not selected
         print('QT Version=',qVersion())
         if True:
@@ -108,27 +111,76 @@ class DigitalClock(QLCDNumber):
             #palette.setColor(QPalette.Window, Qt.black)
             #self.setPalette(palette)
 
+        # Start the ball rolling
+        self.show()
+        self.show_clock=True
+        self.UpdateTime()
+        
         # Time to update clock every second
         timer = QtCore.QTimer(self)
         timer.timeout.connect(self.UpdateTime)
         timer.start(1000)
 
-        self.UpdateTime()
-
     def UpdateTime(self):
-        now_utc = datetime.now(timezone('UTC'))
-        text = now_utc.strftime("%H:%M:%S")
+        self.show_clock = self.wx==None or self.timeout==0
+        if self.show_clock:
+            #print('Tic ...',self.timeout)
+            now_utc = datetime.now(timezone('UTC'))
+            text = now_utc.strftime("%H:%M:%S")
+            self.setDigitCount(8) 
+            #self.show()
+            self.display(text)
+        else:
+            self.timeout-=1
+            #print('... Toc ',self.timeout)
+
+    def mousePressEvent(self,event):
+        print('mousePressEvent=',event)
+        #print(dir(event))
+        #print("mousePressEvent:",event.position())
+        self.timeout=5
+        text = self.wx
+        self.setDigitCount(9) 
         self.display(text)
+        
+############################################################################################
+
+def get_wx(api_key,city=None,lat=None,lon=None):
+
+    if city!=None:
+        url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}'
+    else:
+        url = f'http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}'        
+    response = requests.get(url)
+    print(response)
+
+    if response.status_code == 200:
+        data = response.json()
+        print(data)
+        temp_k = data['main']['temp']
+        temp_c = temp_k-273
+        temp_f = temp_c*9/5+32
+        desc = data['weather'][0]['description']
+        print(f'Temperature: {temp_k} K = {int(temp_c)} C = {int(temp_f)} F')
+        print(f'Description: {desc}')
+    else:
+        print('Error fetching weather data')
+
+    wx = f"{int(temp_f)}'f {int(temp_c)}'c"
+    return wx
 
 ############################################################################################
 
 # The overall gui
 class WCLOCK_GUI(QMainWindow):
 
-    def __init__(self,args,parent=None):
+    def __init__(self,args,parent=None,api_key=None,gridsq=None):
         super(WCLOCK_GUI, self).__init__(parent)
 
         print('Init GUI ...\n')
+        self.wx=None
+        self.api_key=api_key
+        self.gridsq=gridsq
 
         # Timer to update the map every 15 minutes
         timer = QtCore.QTimer(self)
@@ -172,12 +224,21 @@ class WCLOCK_GUI(QMainWindow):
         nrows=3
         ncols=1
 
+        # Get weather
+        if args.wx:
+            print('grid=',self.grid)
+            self.lat, self.lon = maidenhead2latlon(self.gridsq)
+            print('lat=',self.lat,'\tlon=',self.lon)
+            self.wx=get_wx(self.api_key,lat=self.lat,lon=self.lon)
+            print('WX=',self.wx)
+
         # The clock
         row=0
         col=0
-        self.clock = DigitalClock()
+        self.clock = DigitalClock(wx=self.wx)
         self.grid.addWidget(self.clock,row,col,2,ncols)
-        self.clock.show()
+        #self.clock.show()
+        #self.show_clock=True
         
         sizePolicy = QSizePolicy( QSizePolicy.Policy.Minimum, 
                                   QSizePolicy.Policy.Minimum)
@@ -285,10 +346,18 @@ if __name__ == "__main__":
                           help='Geometry')
     arg_proc.add_argument('-desktop',type=int,default=None,
                           help='Desk Top Work Space No.')
+    arg_proc.add_argument('-wx', action='store_true',
+                          help='Toggle between time and weather')
     args = arg_proc.parse_args()
 
+    # Get Open Weather Map API key and my grid square
+    RCFILE=os.path.expanduser("~/.keyerrc")
+    with open(RCFILE) as f:
+        SETTINGS = json.load(f)
+    print(SETTINGS)
+    
     app  = QApplication(sys.argv)
-    gui  = WCLOCK_GUI(args)
+    gui  = WCLOCK_GUI(args,api_key=SETTINGS['MY_OWM_API_KEY'],gridsq=SETTINGS['MY_GRID'])
 
     print('And away we go !')
     #sys.exit(app.exec())
