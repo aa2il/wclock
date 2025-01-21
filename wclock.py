@@ -134,14 +134,15 @@ class DigitalClock(QLCDNumber):
             self.timeout-=1
             #print('... Toc ',self.timeout)
 
+    # Callback if mouse button is pressed while in the LCD display area
     def mousePressEvent(self,event):
         print('mousePressEvent=',event)
         #print(dir(event))
         #print("mousePressEvent:",event.position())
-        self.timeout=5
-        text = self.wx
-        self.setDigitCount(9) 
-        self.display(text)
+        if self.wx!=None:
+            self.timeout=5
+            self.setDigitCount(9) 
+            self.display(self.wx)
         
 ############################################################################################
 
@@ -225,7 +226,7 @@ class WCLOCK_GUI(QMainWindow):
         ncols=1
 
         # Get weather
-        if args.wx:
+        if True:    # args.wx:
             print('grid=',self.grid)
             self.lat, self.lon = maidenhead2latlon(self.gridsq)
             print('lat=',self.lat,'\tlon=',self.lon)
@@ -346,8 +347,8 @@ if __name__ == "__main__":
                           help='Geometry')
     arg_proc.add_argument('-desktop',type=int,default=None,
                           help='Desk Top Work Space No.')
-    arg_proc.add_argument('-wx', action='store_true',
-                          help='Toggle between time and weather')
+    #arg_proc.add_argument('-wx', action='store_true',
+    #                      help='Toggle between time and weather')
     args = arg_proc.parse_args()
 
     # Get Open Weather Map API key and my grid square
