@@ -69,7 +69,7 @@ from cartopy.feature.nightshade import Nightshade
 from itertools import chain
 import numpy as np
 import time
-from utilities import find_resource_file
+from utilities import find_resource_file,error_trap
 
 import requests, json
 from latlon2maiden import maidenhead2latlon
@@ -230,7 +230,11 @@ class WCLOCK_GUI(QMainWindow):
             print('grid=',self.grid)
             self.lat, self.lon = maidenhead2latlon(self.gridsq)
             print('lat=',self.lat,'\tlon=',self.lon)
-            self.wx=get_wx(self.api_key,lat=self.lat,lon=self.lon)
+            try:
+                self.wx=get_wx(self.api_key,lat=self.lat,lon=self.lon)
+            except:
+                self.wx=None
+                error_trap('WCLOCK GUI INIT: Unable to get local weather',1)
             print('WX=',self.wx)
 
         # The clock
