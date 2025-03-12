@@ -1,11 +1,12 @@
 #! /home/joea/miniconda3/envs/aa2il/bin/python -u
 #
 # NEW: /home/joea/miniconda3/envs/aa2il/bin/python -u
-# OLD: /usr/bin/python3 -u 
+# OLD:  /home/joea/miniconda3/envs/py3_10/bin/python -u
+# OLDER: /usr/bin/python3 -u 
 ############################################################################################
 #
 # World Clock - Rev 2.0
-# Copyright (C) 2021-5 by Joseph B. Attili, aa2il AT arrl DOT net
+# Copyright (C) 2021-5 by Joseph B. Attili, joe DOT aa2il AT gmail DOT com
 #
 # Gui to show current GMT and Gray Line.  This new version uses cartopy
 # rather than basemap.
@@ -31,18 +32,10 @@
 import sys
 import os
 from time import sleep
-from datetime import timedelta,datetime    # ,UTC - Once we move to python 3.12
-from pytz import timezone
+import datetime
 
 try:
     if True:
-        # This doesnt work right but I need to figure it out since ...
-        # The changes are BS and typical of if it aint broke, let's fix it attitude
-        # that keep linux from becoming dominant.  What a disgrace!
-        # The main changes relate to the elimination of short-cut names for enum types.
-        # I haven't found a definitive listing of the changes - best to serach using error generated.
-        # Guessing often works too!
-        # What a crock!!!!
         from PyQt6.QtWidgets import *  
         from PyQt6.QtGui import QPalette      # Too many differences from QT5 - ugh! 
         from PyQt6.QtCore import Qt,qVersion
@@ -77,6 +70,25 @@ from latlon2maiden import maidenhead2latlon
 ############################################################################################
 
 VERSION=2.0
+
+############################################################################################
+
+# Playpen
+if False:
+    print('Python Version=',sys.version_info)
+    if sys.version_info<(3,12,0):
+        print('\tIts OLD!')
+    else:
+        print('\tIts NEW!')
+
+    print('tzname=',time.tzname)
+
+    tz_string = datetime.datetime.now(datetime.timezone.utc).astimezone().tzname()
+    print('tz_string=',tz_string)
+
+    print('daylight=',time.daylight) 
+
+    sys.exit(0)
 
 ############################################################################################
 
@@ -125,7 +137,10 @@ class DigitalClock(QLCDNumber):
         self.show_clock = self.wx==None or self.timeout==0
         if self.show_clock:
             #print('Tic ...',self.timeout)
-            now_utc = datetime.now(timezone('UTC'))
+            if sys.version_info<(3,12,0):
+                now_utc = datetime.datetime.utcnow()              # OLD
+            else:
+                now_utc = datetime.datetime.now(datetime.UTC)     # Python 3.12
             text = now_utc.strftime("%H:%M:%S")
             self.setDigitCount(8) 
             #self.show()
@@ -282,8 +297,10 @@ class WCLOCK_GUI(QMainWindow):
     def UpdateMap(self):
         
         # Shade the night areas
-        date1 = datetime.utcnow()
-        #date1 = datetime.now(UTC)     # Once we move to python 3.12
+        if sys.version_info<(3,12,0):
+            date1 = datetime.datetime.utcnow()              # OLD
+        else:
+            date1 = datetime.datetime.now(datetime.UTC)     # Python 3.12
 
         print('Updating map @ ',date1)
 
