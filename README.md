@@ -8,22 +8,31 @@ Clock showing GMT time and Gray Line.
 
 1) Uses python3 and pyqt
 2) Clone gitub wclock, libs and data repositories
-    - cd
-    - mkdir Python
-    - cd Python
-    - git clone https://github.com/aa2il/wclock
-    - git clone https://github.com/aa2il/libs
-    - git clone https://github.com/aa2il/data
+      
+      cd
+      mkdir Python
+      cd Python
+      git clone https://github.com/aa2il/wclock
+      git clone https://github.com/aa2il/libs
+      git clone https://github.com/aa2il/data
+      
 3) Install packages needed for wclock:
-   - cd ~/Python/wclock
-   - pip3 install -r requirements.txt
+
+     cd ~/Python/wclock
+     pip3 install -r requirements.txt
+     
 4) Make sure its executable:
-   - chmod +x wclock.py 
+
+     chmod +x wclock.py
+     
 5) Set PYTHON PATH so os can find libraries:
+
    - Under tcsh:      setenv PYTHONPATH $HOME/Python/libs
    - Under bash:      export PYTHONPATH="$HOME/Python/libs"
+   
 6) Bombs away:
-   - ./wclock.py
+
+     ./wclock.py
 
 # Installation under Mini-conda:
 
@@ -64,17 +73,19 @@ Clock showing GMT time and Gray Line.
    - conda activate aa2il
 
 4) Clone gitub wclock, libs and data repositories:
-    - cd
-    - mkdir Python
-    - cd Python
-    - git clone https://github.com/aa2il/wclock
-    - git clone https://github.com/aa2il/libs
-    - git clone https://github.com/aa2il/data
+
+      cd
+      mkdir Python
+      cd Python
+      git clone https://github.com/aa2il/wclock
+      git clone https://github.com/aa2il/libs
+      git clone https://github.com/aa2il/data
 
 5) Install packages needed by wclock:
-   - conda activate aa2il
-   - cd ~/Python/wclock
-   - pip3 install -r requirements.txt
+
+     conda activate aa2il
+     cd ~/Python/wclock
+     pip3 install -r requirements.txt
 
 6) Set PYTHON PATH so os can find libraries:
    - Under tcsh:      setenv PYTHONPATH $HOME/Python/libs
@@ -82,27 +93,33 @@ Clock showing GMT time and Gray Line.
 
 7) To run wclock, we need to specify python interpreter so it doesn't run in
    the default system environment:
-   - cd ~/Python/wclock
-   - conda activate aa2il
-   - python wclock.py
+   
+     cd ~/Python/wclock
+     conda activate aa2il
+     python wclock.py
 
-8) Known issues using this (as of July 2023):
+8) Known issues using this (as of March 2025):
    - None
 
 # Installation for Windoz:
 
 0) One option is to use miniconda and follow the directions above.
       
-1) I had success installing Python (v3.12 as of Oct 2024) the Microslop Store
+1) I had success installing Python (v3.12 as of Oct 2024) from the Microslop Store
    (or directly from python.org).
 
 2) Clone gitub repositories.  There are several tools available for windows
-   to for fetching git repositories, e.g.  https://git-scm.com/downloads/win
+   for fetching git repositories.  I use the command line version from
+   
+       https://git-scm.com/downloads/win
+       
    Find one you like, open a command prompt and effect the following:
    
-      cd YOUR_HOME_DIRECTORY
+      cd %userprofile%       (Goto YOUR_HOME_DIRECTORY, very clumsy!)
       mkdir Python
       cd Python
+      rmdir /s wclock
+      rmdir /s libs
       git clone https://github.com/aa2il/wclock
       git clone https://github.com/aa2il/libs
 
@@ -110,4 +127,7 @@ Clock showing GMT time and Gray Line.
 
       pip install -r requirements.txt
 
-   
+4) Bombs away:
+
+      cd %userprofile%\Python\wclock
+      python wclock.py
