@@ -100,13 +100,14 @@ Clock showing GMT time and Gray Line.
    to for fetching git repositories, e.g.  https://git-scm.com/downloads/win
    Find one you like, open a command prompt and effect the following:
    
-    - cd YOUR_HOME_DIRECTORY
-    - mkdir Python
-    - cd Python
-    - git clone https://github.com/aa2il/wclock
+      cd YOUR_HOME_DIRECTORY
+      mkdir Python
+      cd Python
+      git clone https://github.com/aa2il/wclock
+      git clone https://github.com/aa2il/libs
 
 3) Install dependancies:
 
-        pip install -r requirements.txt
+      pip install -r requirements.txt
 
    

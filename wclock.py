@@ -241,7 +241,7 @@ class WCLOCK_GUI(QMainWindow):
         ncols=1
 
         # Get weather
-        if True:    # args.wx:
+        if self.gridsq and self.api_key:
             print('grid=',self.grid)
             self.lat, self.lon = maidenhead2latlon(self.gridsq)
             print('lat=',self.lat,'\tlon=',self.lon)
@@ -374,12 +374,19 @@ if __name__ == "__main__":
 
     # Get Open Weather Map API key and my grid square
     RCFILE=os.path.expanduser("~/.keyerrc")
-    with open(RCFILE) as f:
-        SETTINGS = json.load(f)
-    print(SETTINGS)
+    try:
+        with open(RCFILE) as f:
+            SETTINGS = json.load(f)
+        print('SETTINGS=',SETTINGS)
+        OWM_API_KEY=SETTINGS['MY_OWM_API_KEY']        
+        MY_GRID=SETTINGS['MY_GRID']
+    except:
+        print("*** WARNING - Can't find settings file - Need OWM_API_KEY and GRID SQUARE if you want current local wx ***\n")
+        OWM_API_KEY=None
+        MY_GRID=None
     
     app  = QApplication(sys.argv)
-    gui  = WCLOCK_GUI(args,api_key=SETTINGS['MY_OWM_API_KEY'],gridsq=SETTINGS['MY_GRID'])
+    gui  = WCLOCK_GUI(args,api_key=OWM_API_KEY,gridsq=MY_GRID)
 
     print('And away we go !')
     #sys.exit(app.exec())
