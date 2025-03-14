@@ -91,7 +91,22 @@ Clock showing GMT time and Gray Line.
 
 # Installation for Windoz:
 
-1) Best bet is to use mini-conda and follow the instructions above.
-2) There is an older compiled binary/installer listed on the right panel
-   of this screen.  If you want/need a more recent binary, email me
-   or follow the steps in windoz.bat to build it from the source.
+0) One option is to use miniconda and follow the directions above.
+      
+1) I had success installing Python (v3.12 as of Oct 2024) the Microslop Store
+   (or directly from python.org).
+
+2) Clone gitub repositories.  There are several tools available for windows
+   to for fetching git repositories, e.g.  https://git-scm.com/downloads/win
+   Find one you like, open a command prompt and effect the following:
+   
+    - cd YOUR_HOME_DIRECTORY
+    - mkdir Python
+    - cd Python
+    - git clone https://github.com/aa2il/wclock
+
+3) Install dependancies:
+
+        pip install -r requirements.txt
+
+   
