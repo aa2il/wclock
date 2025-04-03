@@ -1,8 +1,7 @@
 #! /home/joea/miniconda3/envs/aa2il/bin/python -u
 #
 # NEW: /home/joea/miniconda3/envs/aa2il/bin/python -u
-# OLD:  /home/joea/miniconda3/envs/py3_10/bin/python -u
-# OLDER: /usr/bin/python3 -u 
+# OLD: /usr/bin/python3 -u 
 ############################################################################################
 #
 # World Clock - Rev 2.0
@@ -361,6 +360,8 @@ if __name__ == "__main__":
     
     print('\n****************************************************************************')
     print('\n   World Clock',VERSION,'beginning ...\n')
+    print('\tPython version=',sys.version_info[0],'.',
+          sys.version_info[1],'.',sys.version_info[2],'\n')
 
     # Command line args
     arg_proc = argparse.ArgumentParser(description='World Clock')
