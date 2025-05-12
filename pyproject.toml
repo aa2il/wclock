@@ -1,0 +1,15 @@
+[project]
+name = "wclock"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "cartopy>=0.24.1",
+    "matplotlib>=3.10.3",
+    "psutil>=7.0.0",
+    "pyqt6>=6.9.0",
+    "pyserial>=3.5",
+    "pytz>=2025.2",
+    "requests>=2.32.3",
+]

@@ -4,8 +4,60 @@ Clock showing GMT time and Gray Line.
 
 ![World Clock Screen Shot]( Docs/wclock.png)
 
-# Installation under Linux:
+# Installation under Linux using uv:
 
+0) This seems to be the easiest/best ssolution.  If you haven't done this yet, install uv:
+
+      curl -LsSf https://astral.sh/uv/install.sh | sh      
+      rehash     
+
+1) Clone gitub wclock, libs and data repositories
+      
+      cd
+      mkdir Python
+      cd Python
+      git clone https://github.com/aa2il/wclock
+      git clone https://github.com/aa2il/libs
+      git clone https://github.com/aa2il/data
+
+2) Create virtual environment and install required packages:
+
+      cd ~/Python/wclock
+      uv init
+      uv add -r requirements.txt
+
+3) Set PYTHON PATH so os can find libraries:
+
+   - Under tcsh:      setenv PYTHONPATH $HOME/Python/libs
+   - Under bash:      export PYTHONPATH="$HOME/Python/libs"
+   
+4) Bombs away:
+
+     uv run wclock.py
+
+   or, modify the first line in wclock.py to point to the correct interpretor:
+
+     ./wclock.py
+
+5) Other useful uv commands:
+
+   - Get a list of available python interpretors:
+   
+        uv python list
+
+   - Install a specific python version:
+   
+        uv python install 3.13
+
+   - Use (pin) a specific version:
+   
+        uv python pin 3.13
+
+
+# Installation under Linux - depricated
+
+0) This no longer works since recent versions of python keep tight control
+   over the system librarires.
 1) Uses python3 and pyqt
 2) Clone gitub wclock, libs and data repositories
       
@@ -34,7 +86,7 @@ Clock showing GMT time and Gray Line.
 
      ./wclock.py
 
-# Installation under Mini-conda:
+# Installation under Mini-conda - clumsy, better to use uv:
 
 0) Good video:  https://www.youtube.com/watch?v=23aQdrS58e0&t=552s
 

@@ -1,4 +1,5 @@
-#! /home/joea/miniconda3/envs/aa2il/bin/python -u
+#! /home/joea/Python/wclock/.venv/bin/python -u 
+#! .venv/bin/python -u 
 #
 # NEW: /home/joea/miniconda3/envs/aa2il/bin/python -u
 # OLD: /usr/bin/python3 -u 

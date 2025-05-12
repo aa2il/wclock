@@ -5,12 +5,7 @@
 #
 # but, in true linux fashion, it was broken in Python 3.11 - great jobs guys!
 #
-# Try this:
-#
-#    sudo apt install python3.12-venv
-#    mkdir -p ~/.venvs
-#    python3 -m venv ~/.venv
-#    ~/.venv/bin/python -m pip install -r requirements.txt
+# See README.md for how to install under virtual environment with either uv or miniconda
 #
 ###############################################################################
 #
@@ -23,7 +18,6 @@
 #
 ###############################################################################
 
-#pyqt5
 pyqt6
 matplotlib
 pytz
@@ -31,13 +25,14 @@ pyserial
 cartopy
 #PySide6
 psutil
+requests
+
 
 # From miniconda, also need these for some reason?!
 #lxml
 #cryptography
 #attrs
 #platformdirs
-#requests
 #requests-file
 #requests-toolbelt
 #beautifulsoup4
