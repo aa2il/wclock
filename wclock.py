@@ -1,3 +1,5 @@
+#!/usr/bin/env -S uv run --script
+#
 #! /home/joea/Python/wclock/.venv/bin/python -u 
 #! .venv/bin/python -u 
 #

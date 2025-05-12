@@ -6,7 +6,7 @@ Clock showing GMT time and Gray Line.
 
 # Installation under Linux using uv:
 
-0) This seems to be the easiest/best ssolution.  If you haven't done this yet, install uv:
+0) This seems to be the easiest/best solution.  You will need to install uv on your system (once):
 
       curl -LsSf https://astral.sh/uv/install.sh | sh      
       rehash     
@@ -20,13 +20,21 @@ Clock showing GMT time and Gray Line.
       git clone https://github.com/aa2il/libs
       git clone https://github.com/aa2il/data
 
-2) Create virtual environment and install required packages:
+2) One of the features of uv is that the virtual environment is included in the github repository.  You should NOT have to do anything since uv will install the environment and required packages the first time you run wclock.:
 
-      cd ~/Python/wclock
-      uv init
-      uv add -r requirements.txt
+For the record, here is how I set up the environment:
 
-3) Set PYTHON PATH so os can find libraries:
+     cd ~/Python/wclock
+     uv init
+     rm main.py
+     uv add -r requirements.txt
+
+Note: wclock.py uses qt, not tk, so there is no problem with the recent versions of python (e.g. 3.13).
+
+3) Make sure its executable and set PYTHON PATH so os can find libraries:
+
+     cd ~/Python/wclock
+     chmod +x wclock.py
 
    - Under tcsh:      setenv PYTHONPATH $HOME/Python/libs
    - Under bash:      export PYTHONPATH="$HOME/Python/libs"
@@ -35,7 +43,7 @@ Clock showing GMT time and Gray Line.
 
      uv run wclock.py
 
-   or, modify the first line in wclock.py to point to the correct interpretor:
+   or, 
 
      ./wclock.py
 
