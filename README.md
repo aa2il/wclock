@@ -8,62 +8,62 @@ Clock showing GMT time and Gray Line.
 
 0. This seems to be the easiest/best solution.  You will need to install uv on your system (once):
 
-     curl -LsSf https://astral.sh/uv/install.sh | sh      
-     rehash     
+        curl -LsSf https://astral.sh/uv/install.sh | sh      
+        rehash     
 
-1) Clone gitub wclock, libs and data repositories
+1. Clone gitub wclock, libs and data repositories
       
-     cd
-     mkdir Python
-     cd Python
-     git clone https://github.com/aa2il/wclock
-     git clone https://github.com/aa2il/libs
-     git clone https://github.com/aa2il/data
+        cd
+        mkdir Python
+        cd Python
+        git clone https://github.com/aa2il/wclock
+        git clone https://github.com/aa2il/libs
+        git clone https://github.com/aa2il/data
 
 2. One of the features of uv is that the virtual environment is included in the github repository.  You DO NOT have to do anything since uv will install the environment and required packages the first time you run wclock.
 
-For the record, here is how I set up the environment:
+   For the record, here is how I set up the environment:
 
-     cd ~/Python/wclock
-     uv init
-     rm main.py
-     uv add -r requirements.txt
+        cd ~/Python/wclock
+        uv init
+        rm main.py
+        uv add -r requirements.txt
 
-Note: wclock.py uses qt, not tk, so there is no problem with the recent versions of python (e.g. 3.13).
+   Note: wclock.py uses qt, not tk, so there is no problem with the recent versions of python (e.g. 3.13).
 
 3. Make sure its executable and set PYTHON PATH so os can find libraries:
 
-     cd ~/Python/wclock
-     chmod +x wclock.py
+        cd ~/Python/wclock
+        chmod +x wclock.py
 
-   - Under tcsh:      setenv PYTHONPATH $HOME/Python/libs
-   - Under bash:      export PYTHONPATH="$HOME/Python/libs"
+        Under tcsh:      setenv PYTHONPATH $HOME/Python/libs
+        Under bash:      export PYTHONPATH="$HOME/Python/libs"
    
 4. Bombs away:
 
-     uv run wclock.py
+        uv run wclock.py
 
    or, 
 
-     ./wclock.py
+        ./wclock.py
 
 5. Other useful uv commands:
 
    - Get a list of available python interpretors:
    
-        uv python list
+                uv python list
 
    - Install a specific python version:
    
-        uv python install 3.13
+                uv python install 3.13
 
    - Use (pin) a specific version:
    
-        uv python pin 3.13
+                uv python pin 3.13
 
 # Installation for Windoz using uv:
 
-0. This couldn't be much easier - and there's no need for a bulky installer!  You will need to install uv on your system by opening a cmd prompt and executing:
+* This couldn't be much easier - and there's no need for a bulky installer!  You will need to install uv on your system by opening a cmd prompt and executing:
 
       powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 
@@ -71,7 +71,7 @@ You will also need a git client.  I use the command line version available from:
 
       https://git-scm.com/downloads/win
        
-1. Open a cmd prompt and clone gitub wclock, libs and data repositories
+* Open a cmd prompt and clone gitub wclock, libs and data repositories
 
       cd %userprofile%
       mkdir Python
