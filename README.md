@@ -85,8 +85,18 @@ You will also need a git client.  I use the command line version available from:
      cd wclock
      uv run wclock.py
 
-
 # Other Installation Options
 
 In the past, I have used other installation methods for both linux and windoz.  These are summarized in the companion file README2.md.
+
+Additional note - to simply grab the latest changes, use "pull" instead of "clone" in the git commands:
+
+      cd wclock
+      git pull https://github.com/aa2il/pyKeyer
+      cd ../libs
+      git pull https://github.com/aa2il/libs
+      cd ../data
+      git pull https://github.com/aa2il/data
+        
+
 
