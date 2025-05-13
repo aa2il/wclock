@@ -6,21 +6,21 @@ Clock showing GMT time and Gray Line.
 
 # Installation under Linux using uv:
 
-0) This seems to be the easiest/best solution.  You will need to install uv on your system (once):
+0. This seems to be the easiest/best solution.  You will need to install uv on your system (once):
 
-      curl -LsSf https://astral.sh/uv/install.sh | sh      
-      rehash     
+     curl -LsSf https://astral.sh/uv/install.sh | sh      
+     rehash     
 
 1) Clone gitub wclock, libs and data repositories
       
-      cd
-      mkdir Python
-      cd Python
-      git clone https://github.com/aa2il/wclock
-      git clone https://github.com/aa2il/libs
-      git clone https://github.com/aa2il/data
+     cd
+     mkdir Python
+     cd Python
+     git clone https://github.com/aa2il/wclock
+     git clone https://github.com/aa2il/libs
+     git clone https://github.com/aa2il/data
 
-2) One of the features of uv is that the virtual environment is included in the github repository.  You DO NOT have to do anything since uv will install the environment and required packages the first time you run wclock.
+2. One of the features of uv is that the virtual environment is included in the github repository.  You DO NOT have to do anything since uv will install the environment and required packages the first time you run wclock.
 
 For the record, here is how I set up the environment:
 
@@ -31,7 +31,7 @@ For the record, here is how I set up the environment:
 
 Note: wclock.py uses qt, not tk, so there is no problem with the recent versions of python (e.g. 3.13).
 
-3) Make sure its executable and set PYTHON PATH so os can find libraries:
+3. Make sure its executable and set PYTHON PATH so os can find libraries:
 
      cd ~/Python/wclock
      chmod +x wclock.py
@@ -39,7 +39,7 @@ Note: wclock.py uses qt, not tk, so there is no problem with the recent versions
    - Under tcsh:      setenv PYTHONPATH $HOME/Python/libs
    - Under bash:      export PYTHONPATH="$HOME/Python/libs"
    
-4) Bombs away:
+4. Bombs away:
 
      uv run wclock.py
 
@@ -47,7 +47,7 @@ Note: wclock.py uses qt, not tk, so there is no problem with the recent versions
 
      ./wclock.py
 
-5) Other useful uv commands:
+5. Other useful uv commands:
 
    - Get a list of available python interpretors:
    
@@ -63,27 +63,27 @@ Note: wclock.py uses qt, not tk, so there is no problem with the recent versions
 
 # Installation for Windoz using uv:
 
-0) This couldn't be much easier - and there's no need for a bulky installer!  You will need to install uv on your system by opening a cmd prompt and executing:
+0. This couldn't be much easier - and there's no need for a bulky installer!  You will need to install uv on your system by opening a cmd prompt and executing:
 
-     powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+      powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 
 You will also need a git client.  I use the command line version available from:
 
-     https://git-scm.com/downloads/win
+      https://git-scm.com/downloads/win
        
-1) Open a cmd prompt and clone gitub wclock, libs and data repositories
+1. Open a cmd prompt and clone gitub wclock, libs and data repositories
 
-     cd %userprofile%
-     mkdir Python
-     cd Python
-     git clone https://github.com/aa2il/wclock
-     git clone https://github.com/aa2il/libs
-     git clone https://github.com/aa2il/data
+      cd %userprofile%
+      mkdir Python
+      cd Python
+      git clone https://github.com/aa2il/wclock
+      git clone https://github.com/aa2il/libs
+      git clone https://github.com/aa2il/data
 
-2) Run it - uv will magically rebuild the virtual environment the first time:
+2. Run it - uv will magically rebuild the virtual environment the first time:
 
-     cd wclock
-     uv run wclock.py
+      cd wclock
+      uv run wclock.py
 
 # Other Installation Options
 
@@ -92,7 +92,7 @@ In the past, I have used other installation methods for both linux and windoz.  
 Additional note - to simply grab the latest changes, use "pull" instead of "clone" in the git commands:
 
       cd wclock
-      git pull https://github.com/aa2il/pyKeyer
+      git pull https://github.com/aa2il/wclock
       cd ../libs
       git pull https://github.com/aa2il/libs
       cd ../data
