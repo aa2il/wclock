@@ -51,15 +51,15 @@ Clock showing GMT time and Gray Line.
 
    - Get a list of available python interpretors:
    
-        uv python list
+          uv python list
 
    - Install a specific python version:
    
-            uv python install 3.13
+          uv python install 3.13
 
    - Use (pin) a specific version:
    
-            uv python pin 3.13
+          uv python pin 3.13
 
 # Installation for Windoz using uv:
 
