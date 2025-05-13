@@ -20,7 +20,7 @@ Clock showing GMT time and Gray Line.
       git clone https://github.com/aa2il/libs
       git clone https://github.com/aa2il/data
 
-2) One of the features of uv is that the virtual environment is included in the github repository.  You should NOT have to do anything since uv will install the environment and required packages the first time you run wclock.:
+2) One of the features of uv is that the virtual environment is included in the github repository.  You DO NOT have to do anything since uv will install the environment and required packages the first time you run wclock.
 
 For the record, here is how I set up the environment:
 
@@ -80,7 +80,7 @@ You will also need a git client.  I use the command line version available from:
      git clone https://github.com/aa2il/libs
      git clone https://github.com/aa2il/data
 
-2) Run it:
+2) Run it - uv will magically rebuild the virtual environment the first time:
 
      cd wclock
      uv run wclock.py
