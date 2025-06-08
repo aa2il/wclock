@@ -61,6 +61,14 @@ Clock showing GMT time and Gray Line.
    
           uv python pin 3.13
 
+   - Add (remove) a package:
+
+          uv add numpy
+
+   - Help:
+
+          uv --help
+
 # Installation for Windoz using uv:
 
 0. This couldn't be much easier - and there's no need for a bulky installer!  You will need to install uv on your system by opening a cmd prompt and executing:
