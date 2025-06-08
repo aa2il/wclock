@@ -22,6 +22,10 @@ Clock showing GMT time and Gray Line.
 
 2. One of the features of uv is that the virtual environment is included in the github repository.  You DO NOT have to do anything since uv will install the environment and required packages the first time you run wclock.
 
+   NOTE: There seems to be a bug in uv on the RPi.  To get pyqt6 installed, use
+
+        uv pip install -r requirements.txt
+   
    For the record, here is how I set up the environment:
 
         cd ~/Python/wclock
