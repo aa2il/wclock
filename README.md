@@ -29,7 +29,7 @@ Clock showing GMT time and Gray Line.
         rm main.py
         uv add -r requirements.txt
 
-   Note: wclock.py uses qt, not tk, so there is no problem with the recent versions of python (e.g. 3.13).
+        Note: wclock.py uses qt, not tk, so there is no problem with the recent versions of python (e.g. 3.13).
 
 3. Make sure its executable and set PYTHON PATH so os can find libraries:
 
@@ -64,6 +64,10 @@ Clock showing GMT time and Gray Line.
    - Add (remove) a package:
 
           uv add numpy
+
+   - Remove an existing uv installation and start from scratch:
+        
+        rm -rf uv.lock pyproject.toml .venv .python-version
 
    - Help:
 

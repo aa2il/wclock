@@ -210,15 +210,16 @@ class WCLOCK_GUI(QMainWindow):
         # Place window into lower right corner
         geo=args.geo
         if geo==None:
-            #screen_resolution = app.desktop().screenGeometry()
+            # This seems to be broken for QT6 on the RPi?!
             screen_resolution = app.primaryScreen().size()
             width  = screen_resolution.width()
             height = screen_resolution.height()
             print("Screen Res:",screen_resolution,width, height)
-            h=300   # 210
+            h=300 
             w=300
-            x=width-w
-            y=height-h            
+            x=max(10,width-w)
+            y=max(75,height-h)
+            #sys.exit(0)
         else:
             # WWWxHHH+XXX+YYY
             #wclock.py -geo 390x360+1110+710
@@ -232,6 +233,7 @@ class WCLOCK_GUI(QMainWindow):
             x=int( geo2[1] )
             y=int( geo2[2] )
         print('geo=',geo,'\tx=',x,'\ty=',y,'\tw=',w,'\th=',h)
+        #if x>0 and y>0:
         self.setGeometry(x,y,w,h)
 
         # We use a simple grid to layout controls
