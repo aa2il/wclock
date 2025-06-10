@@ -22,10 +22,6 @@ Clock showing GMT time and Gray Line.
 
 2. One of the features of uv is that the virtual environment is included in the github repository.  You DO NOT have to do anything since uv will install the environment and required packages the first time you run wclock.
 
-   NOTE: There seems to be a bug in uv on the RPi.  To get pyqt6 installed, use
-
-        uv pip install -r requirements.txt
-   
    For the record, here is how I set up the environment:
 
         cd ~/Python/wclock
@@ -33,9 +29,24 @@ Clock showing GMT time and Gray Line.
         rm main.py
         uv add -r requirements.txt
 
-        Note: wclock.py uses qt, not tk, so there is no problem with the recent versions of python (e.g. 3.13).
+        Note: wclock.py uses qt, not tk, so there is no problem with the recent versions of python (e.g. 3.13) except on an RPi.
 
-3. Make sure its executable and set PYTHON PATH so os can find libraries:
+3. NOTE: There seems to be a few bugs in uv on the RPi.
+   
+   First, if we use PySide6, we can use recent versions of Python;
+   BUT, if we use pyqt6, we can't:
+         
+         uv init --python 3.11
+
+   or
+
+         uv python pin 3.11
+
+   To get pyqt6 installed, we need to use
+         
+         uv pip install -r requirements.txt
+   
+4. Make sure its executable and set PYTHON PATH so os can find libraries:
 
         cd ~/Python/wclock
         chmod +x wclock.py
@@ -43,7 +54,7 @@ Clock showing GMT time and Gray Line.
         Under tcsh:      setenv PYTHONPATH $HOME/Python/libs
         Under bash:      export PYTHONPATH="$HOME/Python/libs"
    
-4. Bombs away:
+5. Bombs away:
 
         uv run wclock.py
 
@@ -51,7 +62,7 @@ Clock showing GMT time and Gray Line.
 
         ./wclock.py
 
-5. Other useful uv commands:
+6. Other useful uv commands:
 
    - Get a list of available python interpretors:
    

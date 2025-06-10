@@ -8,8 +8,8 @@ dependencies = [
     "cartopy>=0.24.1",
     "matplotlib>=3.10.3",
     "psutil>=7.0.0",
-    "pyqt6>=6.9.0",
     "pyserial>=3.5",
+    "pyside6>=6.9.1",
     "pytz>=2025.2",
-    "requests>=2.32.3",
+    "requests>=2.32.4",
 ]

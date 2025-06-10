@@ -32,21 +32,22 @@ import sys
 import os
 from time import sleep
 import datetime
+from widgets_qt import get_screen_size
 
-try:
-    if True:
+if False:
         from PyQt6.QtWidgets import *  
         from PyQt6.QtGui import QPalette      # Too many differences from QT5 - ugh! 
         from PyQt6.QtCore import Qt,qVersion
-    else:
-        # ... there is a bug in PySide6 and this hangs on exit
+elif True:
+    # ... there was a bug in PySide6 and this hangs on exit but it seems fixed now
         from PySide6.QtWidgets import *
         from PySide6.QtGui import QPalette
         from PySide6.QtCore import Qt,qVersion
-except ImportError:
-    from PyQt5.QtWidgets import *
-    from PyQt5.QtGui import QPalette
-    from PyQt5.QtCore import Qt,qVersion
+else:
+        # Discard at some point
+        from PyQt5.QtWidgets import *
+        from PyQt5.QtGui import QPalette
+        from PyQt5.QtCore import Qt,qVersion
     
 from matplotlib.backends.qt_compat import QtCore, QtWidgets
 import matplotlib.pyplot as plt
@@ -210,11 +211,9 @@ class WCLOCK_GUI(QMainWindow):
         # Place window into lower right corner
         geo=args.geo
         if geo==None:
-            # This seems to be broken for QT6 on the RPi?!
-            screen_resolution = app.primaryScreen().size()
-            width  = screen_resolution.width()
-            height = screen_resolution.height()
-            print("Screen Res:",screen_resolution,width, height)
+            # Make sure window is large enough
+            width,height=get_screen_size(app)
+            print("Screen Size:",width, height)
             h=300 
             w=300
             x=max(10,width-w)
