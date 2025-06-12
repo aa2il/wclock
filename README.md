@@ -36,15 +36,16 @@ Clock showing GMT time and Gray Line.
    First, if we use PySide6, we can use recent versions of Python;
    BUT, if we use pyqt6, we can't:
          
-         uv init --python 3.11
+        rm -rf uv.lock pyproject.toml .venv .python-version
+        uv init --python 3.11
 
    or
 
-         uv python pin 3.11
+        uv python pin 3.11
 
    To get pyqt6 installed, we need to use
          
-         uv pip install -r requirements.txt
+        uv pip install -r requirements.txt
    
 4. Make sure its executable and set PYTHON PATH so os can find libraries:
 

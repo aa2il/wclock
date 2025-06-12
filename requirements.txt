@@ -1,6 +1,8 @@
 ###############################################################################
 #
 # Under uv:
+#     rm -r .venv/ pyproject.toml .python-version uv.lock
+#     uv init
 #     uv add -r requirements.txt
 #
 # On the RPi, this runs into a problem with pytqt6.  Work around is to use:
@@ -28,16 +30,18 @@
 
 #pyqt5
 #pyqt6
-PySide6              # This seems to work but there was a bug that causes gui
-                      # program to hang on final exit - HAS THIS BEEN ADDRESSED????!!!
+# This seems to mostly work except with pyqtgraph under uv.
+# In the past, there was a bug that caused a gui program to hang on final
+# but his seems to be fixed now
+# There is a problem using PySide 6 with pyqtgraph but we're not doing that here
+PySide6
+
 matplotlib
 pytz
 pyserial
 cartopy
-#PySide6
 psutil
 requests
-
 
 # From miniconda, also need these for some reason?!
 #lxml

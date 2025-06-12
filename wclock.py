@@ -32,15 +32,19 @@ import sys
 import os
 from time import sleep
 import datetime
-from widgets_qt import get_screen_size
+from widgets_qt import get_screen_size,QTLIB
 
-if False:
-        from PyQt6.QtWidgets import *  
+if True:
+        # Dynamic importing - this works!
+        exec('from '+QTLIB+'.QtWidgets import QLCDNumber,QMainWindow,QApplication,QGridLayout,QSizePolicy')
+        exec('from '+QTLIB+'.QtGui import QPalette')    
+        exec('from '+QTLIB+'.QtCore import Qt,qVersion')
+elif False:
+        from PyQt6.QtWidgets import QLCDNumber,QMainWindow,QApplication,QGridLayout,QSizePolicy
         from PyQt6.QtGui import QPalette      # Too many differences from QT5 - ugh! 
         from PyQt6.QtCore import Qt,qVersion
-elif True:
-    # ... there was a bug in PySide6 and this hangs on exit but it seems fixed now
-        from PySide6.QtWidgets import *
+elif False:
+        from PySide6.QtWidgets import QLCDNumber,QMainWindow,QApplication,QGridLayout,QSizePolicy
         from PySide6.QtGui import QPalette
         from PySide6.QtCore import Qt,qVersion
 else:
