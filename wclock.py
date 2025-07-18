@@ -34,24 +34,10 @@ from time import sleep
 import datetime
 from widgets_qt import get_screen_size,QTLIB
 
-if True:
-        # Dynamic importing - this works!
-        exec('from '+QTLIB+'.QtWidgets import QLCDNumber,QMainWindow,QApplication,QGridLayout,QSizePolicy')
-        exec('from '+QTLIB+'.QtGui import QPalette')    
-        exec('from '+QTLIB+'.QtCore import Qt,qVersion')
-elif False:
-        from PyQt6.QtWidgets import QLCDNumber,QMainWindow,QApplication,QGridLayout,QSizePolicy
-        from PyQt6.QtGui import QPalette      # Too many differences from QT5 - ugh! 
-        from PyQt6.QtCore import Qt,qVersion
-elif False:
-        from PySide6.QtWidgets import QLCDNumber,QMainWindow,QApplication,QGridLayout,QSizePolicy
-        from PySide6.QtGui import QPalette
-        from PySide6.QtCore import Qt,qVersion
-else:
-        # Discard at some point
-        from PyQt5.QtWidgets import *
-        from PyQt5.QtGui import QPalette
-        from PyQt5.QtCore import Qt,qVersion
+# Use dynamic importing for Qt since there are multiple possibilities
+exec('from '+QTLIB+'.QtWidgets import QLCDNumber,QMainWindow,QApplication,QGridLayout,QSizePolicy')
+exec('from '+QTLIB+'.QtGui import QPalette')    
+exec('from '+QTLIB+'.QtCore import Qt,qVersion')
     
 from matplotlib.backends.qt_compat import QtCore, QtWidgets
 import matplotlib.pyplot as plt
@@ -70,6 +56,7 @@ from utilities import find_resource_file,error_trap
 
 import requests, json
 from latlon2maiden import maidenhead2latlon
+import signal
 
 ############################################################################################
 
@@ -79,6 +66,18 @@ VERSION=2.0
 
 # Playpen
 if False:
+    import signal
+
+    # How to catch kill signal
+    def signal_handler(sig, frame):
+            print('You pressed Ctrl+C!')
+            sys.exit(0)
+
+    signal.signal(signal.SIGINT, signal_handler)
+    print('Press Ctrl+C')
+    signal.pause()
+
+        
     print('Python Version=',sys.version_info)
     if sys.version_info<(3,12,0):
         print('\tIts OLD!')
@@ -354,8 +353,35 @@ class WCLOCK_GUI(QMainWindow):
         self.fig.tight_layout(pad=0)
 
         self.nightmap=None
+
+    ##########################################################################
+
+    # Experiments in shutting down gracefully - not really needed by wclock but helpful elsewhere...
         
+    # De-constructor - called after program ends
+    def __del__(self):
+        print(">>>>> GUI Deconstructor <<<<<")
+ 
+    # Capture 'x' in upper right corner so that we can shut down gracefully
+    def closeEvent(self, event):
+        print("\n>>>>>>>>>> User has clicked the big X on the main window <<<<<<<<<<\n")
+        print(event)
+        self.Quit()
+
+    # Graceful exit
+    def Quit(self):
+        print('Thats all folks!')
+        #self.__del__()
+        QApplication.quit()
+        #sys,exit(0)
         
+############################################################################################
+
+# Kill signal handler - graceful shutdown
+def kill_signal_handler(sig, frame):
+    print('\n>>>>>>>>>>>>> Kill Signal <<<<<<<<<<<<<<\n')
+    gui.Quit()
+
 ############################################################################################
 
 # If the program is run directly or passed as an argument to the python
@@ -393,11 +419,9 @@ if __name__ == "__main__":
     
     app  = QApplication(sys.argv)
     gui  = WCLOCK_GUI(args,api_key=OWM_API_KEY,gridsq=MY_GRID)
+    signal.signal(signal.SIGINT, kill_signal_handler)
 
     print('And away we go !')
-    #sys.exit(app.exec())
     app.exec()
-    print('Thats all folks!')
-    sys,exit(0)
-    print('Thats all folks!')
-    
+    #print('Thats all folks!!')
+        

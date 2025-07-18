@@ -1,7 +1,35 @@
 @echo off
-goto BUILD
 echo %DATE% %TIME%
 echo.
+echo Get wclock up and running under Windows 11 using uv:
+echo.
+echo Install uv:
+echo.
+echo       powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+echo.
+echo Install git client:
+echo.
+echo        https://git-scm.com/downloads/win
+echo.
+echo Clone source code:
+echo.
+        cd %userprofile%
+        mkdir Python
+        cd Python
+        git clone https://github.com/aa2il/wclock
+        git clone https://github.com/aa2il/libs
+        git clone https://github.com/aa2il/data
+echo.
+echo Bombs away:
+echo.
+        cd wclock
+        uv run wclock.py
+echo.
+exit
+echo.
+echo Older installation methods follow below
+echo.
+goto BUILD
 echo Notes about how to run wclock on Windoze 10
 echo.
 echo Already should have matplotlib, cartopy/basemap installed from demos
