@@ -5,9 +5,9 @@ echo Get wclock up and running under Windows 11 using uv:
 echo.
 echo Install uv:
 echo.
-echo       powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+       powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 echo.
-echo Install git client:
+echo Install git client - point a browser to:
 echo.
 echo        https://git-scm.com/downloads/win
 echo.

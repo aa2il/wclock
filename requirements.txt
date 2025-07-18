@@ -1,12 +1,16 @@
 ###############################################################################
 #
-# Under uv:
+# Under uv - see uvinit script in this directory:
+#
 #     rm -r .venv/ pyproject.toml .python-version uv.lock
 #     uv init
 #     uv add -r requirements.txt
 #
 # On the RPi, this runs into a problem with pytqt6.  Work around is to use:
+#
 #     uv pip install -r requirements.txt
+#
+###############################################################################
 #
 # This was how this used to work:
 #     pip3 install -r requirements.txt
@@ -29,12 +33,12 @@
 ###############################################################################
 
 #pyqt5
-#pyqt6
+pyqt6
 # This seems to mostly work except with pyqtgraph under uv.
 # In the past, there was a bug that caused a gui program to hang on final
 # but his seems to be fixed now
 # There is a problem using PySide 6 with pyqtgraph but we're not doing that here
-PySide6
+#PySide6
 
 matplotlib
 pytz

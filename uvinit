@@ -1,0 +1,8 @@
+#! /bin/csh
+#
+# Script to (re)install uv environment
+#
+rm -r .venv/ pyproject.toml .python-version uv.lock
+uv init
+uv add -r requirements.txt
+rm main.py
