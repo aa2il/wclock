@@ -38,6 +38,7 @@ pyqt6
 # In the past, there was a bug that caused a gui program to hang on final
 # but his seems to be fixed now
 # There is a problem using PySide 6 with pyqtgraph but we're not doing that here
+# pyqt6 seems about half this size as pyside6 (on windoz anyway)
 #PySide6
 
 matplotlib
