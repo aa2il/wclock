@@ -3,8 +3,16 @@
 # Under uv - see uvinit script in this directory:
 #
 #     rm -r .venv/ pyproject.toml .python-version uv.lock
-#     uv init
+#     uv init  --python 3.13
 #     uv add -r requirements.txt
+#
+# Try out latest python - doesn't work!  Problem with cartop
+#      uv init --python 3.14
+#
+# Since we somteimes run this script from another directory, embed the dependencies
+# in the script itself:
+#
+#     uv add --script wclock.py -r requirements.txt
 #
 # On the RPi, this runs into a problem with pytqt6.  Work around is to use:
 #
