@@ -3,7 +3,7 @@
 # Under uv - see uvinit script in this directory:
 #
 #     rm -r .venv/ pyproject.toml .python-version uv.lock
-#     uv init  --python 3.13
+#     uv init  --python 3.12
 #     uv add -r requirements.txt
 #
 # Try out latest python - doesn't work!  Problem with cartop
