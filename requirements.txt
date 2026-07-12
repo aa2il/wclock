@@ -40,8 +40,9 @@
 #
 ###############################################################################
 
-#pyqt6
-pyqt6==6.7.1          # Need to specify this version on RPi
+pyqt6
+#pyqt6==6.7.1          # Need to specify this version on RPi
+
 # This seems to mostly work except with pyqtgraph under uv.
 # In the past, there was a bug that caused a gui program to hang on final
 # but his seems to be fixed now
@@ -56,7 +57,7 @@ cartopy
 psutil
 requests
 
-# From miniconda, also need these for some reason?!
+# From miniconda, also need these for some reason?! OBE
 #lxml
 #cryptography
 #attrs
